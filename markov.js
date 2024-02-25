@@ -18,6 +18,27 @@ class MarkovMachine {
 
   makeChains() {
     // TODO
+
+    const wordTable = {};
+
+    for (let i = 0; i < this.words.length; i++) {
+
+      let toChain = this.words[i + 1] ? this.words[i + 1] : null;
+
+      if (!wordTable[this.words[i]]) {
+
+        wordTable[this.words[i]] = [toChain];
+
+      } else {
+
+        if (!wordTable[this.words[i]].includes(toChain)) {
+
+          wordTable[this.words[i]].push(toChain);
+        }
+      }
+    }
+
+    return wordTable;
   }
 
 
@@ -25,5 +46,31 @@ class MarkovMachine {
 
   makeText(numWords = 100) {
     // TODO
+
+    let idx = Math.floor(Math.random() * this.words.length);
+    let wordToAdd = this.words[idx];
+    let returText = wordToAdd;
+
+    while (true) {
+
+      numWords--;
+
+      idx = Math.floor(Math.random() * this.makeChains()[wordToAdd].length);
+
+      let wordArr = this.makeChains()[wordToAdd][idx];
+
+      if (!wordArr || numWords === 0) {
+        break;
+      }
+
+      returText += ` ${wordArr}`;
+
+      wordToAdd = wordArr;
+    }
+
+    return returText;
   }
 }
+
+
+module.exports = { MarkovMachine }
