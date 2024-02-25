@@ -21,6 +21,10 @@ class MarkovMachine {
 
     const wordTable = {};
 
+    if (!this.words.length) {
+      return wordTable;
+    }
+
     for (let i = 0; i < this.words.length; i++) {
 
       let toChain = this.words[i + 1] ? this.words[i + 1] : null;
@@ -46,6 +50,10 @@ class MarkovMachine {
 
   makeText(numWords = 100) {
     // TODO
+
+    if (!this.words.length) {
+      return "";
+    }
 
     let idx = Math.floor(Math.random() * this.words.length);
     let wordToAdd = this.words[idx];
